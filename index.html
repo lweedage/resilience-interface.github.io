@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<style>
+    p {
+        font-size: x-large;
+    }
+
+    /* css for map container */
+    iframe {
+        width: 60%;
+        height: 90%;
+        position: absolute;
+        border: 1px solid;
+    }
+
+    /* css for area with radio buttons */
+    aside {
+        width: 100%;
+        position: absolute;
+        left: 64%;
+
+    }
+
+    figure {
+        border: thin #c0c0c0 solid;
+        max-width: 500px;
+        margin: 1%;
+        padding: 3px;
+    }
+
+    img {
+        max-width: 500px;
+        /*max-height: 200px;*/
+    }
+
+    figcaption {
+        background-color: #222;
+        color: #fff;
+        font: italic smaller sans-serif;
+        padding: 3px;
+        text-align: center;
+    }
+
+    datalist {
+        display: flex;
+        justify-content: space-between;
+        width: 325px;
+    }
+
+    option {
+        padding: 0;
+    }
+
+    input[type="range"] {
+        width: 300px;
+        margin: 0;
+    }
+
+    /*.hideable{*/
+    /*    display: none;*/
+    /*}*/
+
+
+</style>
+<body onload="Update()">
+
+<h1>Resilience of the Dutch cellular network</h1>
+<section>
+    <iframe id="html_page" src="data/html/basemap.html"></iframe>
+</section>
+
+
+<aside>
+    <form>
+        <p style="font-weight: bold">Area</p>
+        <ul style="padding:0">
+            <li style="list-style-type: none"><input id="radio-province" type="radio" name="area" value="provinces"
+                                                     onchange="Update()">
+                <label for="radio-province">Province</label></li>
+            <li style="list-style-type: none"><input id="radio-municipality" type="radio" name="area"
+                                                     value="municipalities" onchange="Update()">
+                <label for="radio-municipality">Municipality</label></li>
+            <li style="list-style-type: none"><input id="radio-zipcode" type="radio" name="area" value="zipcodes"
+                                                     onchange="Update()">
+                <label for="radio-zipcode">Zip code</label></li>
+        </ul>
+
+        <div id="province" class='hideable'>
+            <label for="province-select">Choose a province:</label>
+            <select name="Provinces" id="province-select" onchange="Update()">
+                <option value="">--Please choose an option--</option>
+                <option value="Drenthe">Drenthe</option>
+                <option value="Flevoland">Flevoland</option>
+                <option value="Friesland">Friesland</option>
+                <option value="Gelderland">Gelderland</option>
+                <option value="Groningen">Groningen</option>
+                <option value="Limburg">Limburg</option>
+                <option value="Noord-Brabant">Noord-Brabant</option>
+                <option value="Noord-Holland">Noord-Holland</option>
+                <option value="Overijssel">Overijssel</option>
+                <option value="Utrecht">Utrecht</option>
+                <option value="Zeeland">Zeeland</option>
+                <option value="Zuid-Holland">Zuid-Holland</option>
+            </select>
+        </div>
+
+        <p></p>
+        <div style="font-weight: bold">Measure</div>
+        <input id="fsp-select" type="radio" name="measure" value="FSP" onchange="Update()">
+        <label for="fsp-select">FSP</label>
+        <input id="fdp-select" type="radio" name="measure" value="FDP" onchange="Update()">
+        <label for="fdp-select">FDP</label>
+        <p></p>
+<!--        <div id="check-show-bs" class='hideable'>-->
+<!--            <ul style="padding:0">-->
+<!--                <li style="list-style-type: none"><input id="show-BS" type="checkbox" name="show-BS" value="show-BS"-->
+<!--                                                         onchange="Update()">-->
+<!--                    <label for="show-BS">Show base stations</label></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+        <div id="failure-check" class='hideable'>
+            <ul style="padding:0">
+                <li style="list-style-type: none"><input id="check-failure" type="checkbox" name="check-failure"
+                                                         value="check-failure"
+                                                         onchange="Update()">
+                    <label for="check-failure">Failures</label></li>
+            </ul>
+        </div>
+
+    </form>
+
+
+    <form id='failure_buttons' class='hideable'>
+        <div id="failure" class='hideable'>
+            <p style="font-weight: bold; font-size:15px">Failures</p>
+        </div>
+        <ul style="padding:0">
+            <li style="list-style-type: none"><input id="radio-correlated" type="radio" name="failure"
+                                                     value="correlated_failure" onchange="Update()">
+                <label for="radio-correlated">Correlated failures</label></li>
+            <li style="list-style-type: none"><input id="radio-isolated" type="radio" name="failure"
+                                                     value="isolated_failure" onchange="Update()">
+                <label for="radio-isolated">Isolated failures</label></li>
+            <li style="list-style-type: none"><input id="radio-user_increase" type="radio" name="failure"
+                                                     value="user_increase" onchange="Update()">
+                <label for="radio-user_increase">User increase</label></li>
+        </ul>
+    </form>
+
+    <div class="slider hideable" id="slider_correlated">
+        <label for="correlated_slider">Radius of failure </label><br/>
+        <input type="range" min="0" max="3" value="0" id="correlated_slider"
+               step="1" list="tickmarks_c" oninput="Update()">
+        <datalist id="tickmarks_c">
+            <option value="0" label=0></option>
+            <option value="500" label=500></option>
+            <option value="1000" label=1000></option>
+            <option value="2500" label=2500></option>
+<!--            <option value="5000" label=5000></option>-->
+        </datalist>
+    </div>
+
+    <div class="slider hideable" id="slider_isolated">
+        <label for="isolated_slider">Failure probability </label><br/>
+        <input type="range" min="0" max="4" value="0" id="isolated_slider"
+               step="1" list="tickmarks_i" oninput="Update()">
+        <datalist id="tickmarks_i">
+            <option value="0" label=0></option>
+            <option value="0.05" label=0.05></option>
+            <option value="0.1" label=0.1></option>
+            <option value="0.25" label=0.25></option>
+            <option value="0.5" label=0.5></option>
+        </datalist>
+    </div>
+
+    <div class="slider hideable" id="slider_increase">
+        <label for="increase_slider">User increase </label><br/>
+        <input type="range" min="0" max="3" value="0" id="increase_slider"
+               step="1" list="tickmarks_u" oninput="Update()">
+        <datalist id="tickmarks_u">
+            <option value=0 label=0%></option>
+            <option value=50 label=50%></option>
+            <option value=100 label=100%></option>
+            <option value=200 label=200%></option>
+        </datalist>
+    </div>
+
+    <div id='figure'>
+        <figure>
+            <img id='image' src="/data/figures/FDPprovinces.png"
+                 alt="Results">
+        </figure>
+    </div>
+
+
+</aside>
+
+
+</body>
+<script>
+    // function to change displaying html content based on which radio button is selected
+    function Update() {
+        for (let element of document.querySelectorAll(".hideable")) {
+            element.style.display = 'none';
+        }
+
+        var area = document.querySelector('[name=area]:checked').value;
+        var measure = document.querySelector('[name=measure]:checked').value;
+
+        if (area === 'provinces' || area === 'municipalities') {
+            document.getElementById("image").src = 'data/figures/' + measure + area + ".png"
+            document.getElementById("html_page").src = 'data/html/' + area + '_' + measure + ".html";
+        } else if (area === 'zipcodes') {
+            document.querySelector('#province').style.display = '';
+            // document.querySelector('#check-show-bs').style.display = '';
+            document.querySelector('#failure-check').style.display = '';
+
+            var province = document.querySelector('[name=Provinces] :checked').value;
+            // var showbs = document.querySelector('[name=show-BS]').checked ? 'BSs' : '';
+
+            var showbs = ''
+
+            var failure_check = document.querySelector('[name=check-failure]').checked;
+            var failure_name = '';
+            var failureparam = '';
+
+            if (failure_check) {
+                document.querySelector('#failure').style.display = '';
+                document.querySelector('#failure_buttons').style.display = '';
+
+                failure_name = document.querySelector('[name=failure]:checked').value;
+
+                var user_increase_vals = [0, 50, 100, 200];
+                var correlated_failure_vals = [0, 500, 1000, 2500];
+                var isolated_failure_vals = [0, 0.05, 0.1, 0.25, 0.5];
+
+                if (failure_name === 'correlated_failure') {
+                    document.querySelector('#slider_correlated').style.display = '';
+                    failureparam = correlated_failure_vals[document.querySelector('#correlated_slider').value];
+                } else if (failure_name === 'isolated_failure') {
+                    document.querySelector('#slider_isolated').style.display = '';
+                    failureparam = isolated_failure_vals[document.querySelector('#isolated_slider').value];
+                } else if (failure_name === 'user_increase') {
+                    document.querySelector('#slider_increase').style.display = '';
+                    failureparam = user_increase_vals[document.querySelector('#increase_slider').value];
+                }
+            }
+            if (failureparam === 0) {
+                document.getElementById("image").src = 'data/figures/' + province + measure + area  + ".png"
+                document.getElementById("html_page").src = 'data/html/' + province + area + '_' + measure + showbs  + ".html";
+            } else {
+                document.getElementById("image").src = 'data/figures/' + province + measure + area + failure_name + failureparam + ".png"
+                document.getElementById("html_page").src = 'data/html/' + province + area + '_' + measure + showbs + failure_name + failureparam + ".html";
+            }
+        } else {
+            console.log('Area is not known')
+        }
+    }
+</script>
+
+</html>

@@ -50,11 +50,11 @@ def find_icon(shape, color):
 
 disaster = False
 user_increase = False
-random_failure = False
+random_failure = True
 
-radius_disaster = 2500  # 500, 1000, 2500, 5000
-percentage_increase = 200  # 50, 100, 200
-random_p = 0  # 0.05, 0.1, 0.25, 0.5
+radius_disaster = 1000  # 500, 1000, 2500
+percentage_increase = 50  # 50, 100, 200
+random_p = 0.5  # 0.05, 0.1, 0.25, 0.5
 
 
 def find_name(province):
@@ -99,7 +99,7 @@ provinces = ['Drenthe', 'Flevoland', 'Friesland', 'Groningen', 'Limburg', 'Overi
              'Zuid-Holland', 'Gelderland', 'Noord-Brabant', 'Noord-Holland']
 # provinces = ['Drenthe', 'Flevoland', 'Friesland', 'Limburg', 'Overijssel', 'Utrecht', 'Zeeland',
 #              'Zuid-Holland', 'Gelderland', 'Noord-Brabant', 'Groningen']
-provinces = ['Friesland']
+# provinces = ['Drenthe']
 
 # os.chdir(r'/home/lotte/PycharmProjects/Disaster Resilience - interface')
 show_BS = False

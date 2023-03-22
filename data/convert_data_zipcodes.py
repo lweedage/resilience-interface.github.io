@@ -69,7 +69,7 @@ areas =['Drenthe', 'Flevoland', 'Friesland', 'Groningen', 'Limburg', 'Overijssel
 provinces =['Drenthe', 'Flevoland', 'Friesland', 'Groningen', 'Limburg', 'Overijssel', 'Utrecht', 'Zeeland',
          'Zuid-Holland', 'Gelderland', 'Noord-Brabant', 'Noord-Holland']
 
-# areas = ['Overijssel']
+areas = ['Drenthe']
 provinces = areas
 
 # --- municipality level ----
